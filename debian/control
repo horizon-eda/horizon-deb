@@ -1,0 +1,49 @@
+Source: horizon-eda
+Section: electronics
+Priority: optional
+Maintainer: Lukas K <lukas@horizon-eda.org>
+Uploaders: Wookey <wookey@debian.org>
+Build-Depends: debhelper (>= 10),
+               libboost-dev,
+               libcairomm-1.0-dev,
+               libcurl4-gnutls-dev,
+               libdxflib-dev,
+               libepoxy-dev,
+               libgit2-dev,
+               libglib2.0-dev,
+               libglm-dev,
+               libgtkmm-3.0-dev,
+               liboce-ocaf-dev,
+               libpodofo-dev,
+               python3,
+               librsvg2-dev,
+               libsqlite3-dev,
+               libzip-dev,
+               libzmq3-dev,
+               libzmq5,
+               util-linux (>= 2.29),
+               uuid-dev
+Standards-Version: 4.4.0
+Homepage: https://horizon-eda.org/
+Rules-requires-root: no
+
+Package: horizon-eda
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: EDA layout and schematic application
+ Horizon is an Electronic Design Automation (EDA) tool for circuit
+ board design. It manages the full design flow from schematic entry
+ to gerber export. The main differentiator from KiCAD is a different
+ (more sane) part library design. It is quite new software in 2018
+ so may have rough edges but is already very capable.
+ .
+ Notable features:
+  * Sane library management
+  * Unified editor for everything from symbol to board
+  * Netlist-aware schematic editor
+  * KiCad's awesome interactive router
+  * Lag- and glitch-free rendering
+  * Rule-based DRC
+  * Undo/redo
+  * Copy/paste for some objects
+  * Builds and runs on Linux and Windows

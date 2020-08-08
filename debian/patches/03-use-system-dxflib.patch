@@ -1,0 +1,23 @@
+Description: Use dxflib shipped with debian
+Author: Wookey <wookey@debian.org>
+
+--- a/Makefile
++++ b/Makefile
+@@ -322,8 +322,6 @@
+ 	src/widgets/pool_browser_stockinfo.cpp\
+ 	src/widgets/plane_editor.cpp\
+ 	src/widgets/title_block_values_editor.cpp\
+-	3rd_party/dxflib/dl_dxf.cpp\
+-	3rd_party/dxflib/dl_writer_ascii.cpp\
+ 	src/import_dxf/dxf_importer.cpp\
+ 	src/imp/rules/rules_window.cpp\
+ 	src/imp/rules/rule_editor.cpp\
+@@ -705,7 +703,7 @@
+ 
+ $(BUILDDIR)/horizon-imp: $(OBJ_COMMON) $(OBJ_ROUTER) $(OBJ_OCE) $(OBJ_IMP)
+ 	$(ECHO) " $@"
+-	$(QUIET)$(CXX) $^ $(LDFLAGS) $(LDFLAGS_GUI) $(LDFLAGS_OCE) $(shell $(PKG_CONFIG) --libs $(LIBS_COMMON) gtkmm-3.0 epoxy cairomm-pdf-1.0 librsvg-2.0 libzmq libcurl) -lpodofo -o $@
++	$(QUIET)$(CXX) $^ $(LDFLAGS) $(LDFLAGS_GUI) $(LDFLAGS_OCE) $(shell $(PKG_CONFIG) --libs $(LIBS_COMMON) gtkmm-3.0 epoxy cairomm-pdf-1.0 librsvg-2.0 libzmq libcurl dxflib) -lpodofo -o $@
+ 
+ $(BUILDDIR)/horizon-pool: $(OBJ_COMMON) $(OBJ_POOL_UTIL)
+ 	$(ECHO) " $@"

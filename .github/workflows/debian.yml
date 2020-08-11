@@ -9,7 +9,7 @@ on:
 
 env:
   HORIZON_VERSION: 1.2.1
-  HORIZON_PKG_VERSION: 1
+  HORIZON_PKG_VERSION: 2
   DEBIAN_FRONTEND: noninteractive
   LANG: en_US.UTF-8
 

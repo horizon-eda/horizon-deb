@@ -24,6 +24,8 @@ jobs:
             release: bionic
           - distro: ubuntu
             release: focal
+          - distro: ubuntu
+            release: groovy
     runs-on: ubuntu-latest
     container: ${{ matrix.os.distro }}:${{ matrix.os.release }}
     steps:

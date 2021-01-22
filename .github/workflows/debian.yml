@@ -21,6 +21,8 @@ jobs:
         os: 
           - distro: debian
             release: buster
+          - distro: debian
+            release: bullseye
           - distro: ubuntu
             release: bionic
           - distro: ubuntu

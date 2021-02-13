@@ -21,19 +21,24 @@ jobs:
         os: 
           - distro: debian
             release: buster
+            id: 150
           - distro: debian
             release: bullseye
+            id: 207
           - distro: ubuntu
             release: bionic
+            id: 190
           - distro: ubuntu
             release: focal
+            id: 206
           - distro: ubuntu
             release: groovy
+            id: 219
     runs-on: ubuntu-latest
     container: ${{ matrix.os.distro }}:${{ matrix.os.release }}
     steps:
     - name: check if master branch
-      if: ${{ github.ref == 'refs/heads/master' }}
+      if: ${{ github.ref == 'refs/heads/packagecloud' }}
       run: echo "Building tag ${{ github.ref }}"
     - name: update apt cache
       run: apt-get update
@@ -76,8 +81,8 @@ jobs:
           *.dsc
           *.debian.tar.*
           *.orig.tar.*
-    - name: Push to bintray
-      if: ${{ github.ref == 'refs/heads/master' }}
+    - name: Push to packagecloud
+      if: ${{ github.ref == 'refs/heads/packagecloud' }}
       run: |
-        curl -T horizon-eda_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.deb -ucarrotindustries:${{ secrets.BINTRAY_API_KEY }}  https://api.bintray.com/content/horizon-eda/horizon-eda-${{ matrix.os.release }}/horizon-eda/${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}/pool/main/h/horizon-eda_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.deb -H 'X-Bintray-Debian-Distribution: horizon-eda-${{ matrix.os.release }}' -H 'X-Bintray-Debian-Component: main' -H 'X-Bintray-Debian-Architecture: amd64' -H 'X-Bintray-Publish: 1'
-        curl -T horizon-eda-dbgsym_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.* -ucarrotindustries:${{ secrets.BINTRAY_API_KEY }}  https://api.bintray.com/content/horizon-eda/horizon-eda-${{ matrix.os.release }}/horizon-eda/${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}/pool/main/h/horizon-eda-dbgsym_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.deb -H 'X-Bintray-Debian-Distribution: horizon-eda-${{ matrix.os.release }}' -H 'X-Bintray-Debian-Component: main' -H 'X-Bintray-Debian-Architecture: amd64' -H 'X-Bintray-Publish: 1'
+        curl -X POST https://${{ secrets.PACKAGECLOUD_API_TOKEN }}:@packagecloud.io/api/v1//repos/horizon-eda/horizon-eda/packages.json  -F "package[distro_version_id]=${{ matrix.os.id }}"  -F "package[package_file]=@horizon-eda-upstream_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.deb"
+        curl -X POST https://${{ secrets.PACKAGECLOUD_API_TOKEN }}:@packagecloud.io/api/v1//repos/horizon-eda/horizon-eda/packages.json  -F "package[distro_version_id]=${{ matrix.os.id }}"  -F "package[package_file]=@$(echo horizon-eda-upstream-dbgsym_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.*deb)"

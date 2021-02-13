@@ -1,6 +1,6 @@
 # Horizon EDA packages for Ubuntu and Debian
 
-To make Horizon EDA easier to install on Debian and Ubuntu, this repository uses Actions to build Debian packages and publish them on Bintray.
+To make Horizon EDA easier to install on Debian and Ubuntu, this repository uses Actions to build Debian packages and publish them on packagecloud.io.
 
 See [the installation instructions](https://horizon-eda.readthedocs.io/en/latest/installation.html#debian-ubuntu) for how to install it.
 

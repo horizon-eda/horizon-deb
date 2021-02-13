@@ -1,3 +1,7 @@
+horizon-eda-upstream (1.4.0-1) stable; urgency=medium
+
+  * Rename to horizon-eda-upstream
+
 horizon-eda (1.4.0-1) stable; urgency=medium
 
   * New upstream version

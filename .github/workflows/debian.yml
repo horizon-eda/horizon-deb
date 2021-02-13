@@ -49,29 +49,29 @@ jobs:
 
     - uses: actions/checkout@v2
     - name: download tarball
-      run: wget https://github.com/horizon-eda/horizon/archive/v${HORIZON_VERSION}.tar.gz -O horizon-eda_${HORIZON_VERSION}.orig.tar.gz
+      run: wget https://github.com/horizon-eda/horizon/archive/v${HORIZON_VERSION}.tar.gz -O horizon-eda-upstream_${HORIZON_VERSION}.orig.tar.gz
 
     - name: unpack tarball and add debian directory
       run: |
-        tar xzf horizon-eda_${HORIZON_VERSION}.orig.tar.gz
-        mv horizon-${HORIZON_VERSION} horizon-eda-${HORIZON_VERSION}
-        cp -r debian horizon-eda-${HORIZON_VERSION}
+        tar xzf horizon-eda-upstream_${HORIZON_VERSION}.orig.tar.gz
+        mv horizon-${HORIZON_VERSION} horizon-eda-upstream-${HORIZON_VERSION}
+        cp -r debian horizon-eda-upstream-${HORIZON_VERSION}
 
     - name: run debuild
       run: debuild -uc -us
-      working-directory: horizon-eda-${{ env. HORIZON_VERSION }}
+      working-directory: horizon-eda-upstream-${{ env. HORIZON_VERSION }}
 
     - name: list files
       run: ls
     - name: upload debian packages
       uses: actions/upload-artifact@v2-preview
       with:
-        name: packages
+        name: packages-${{ matrix.os.distro }}-${{ matrix.os.release }}
         path: ./*.*deb
     - name: upload debian source files
       uses: actions/upload-artifact@v2-preview
       with:
-        name: source-packages
+        name: source-packages-${{ matrix.os.distro }}-${{ matrix.os.release }}
         path: |
           *.dsc
           *.debian.tar.*

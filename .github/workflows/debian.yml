@@ -30,7 +30,7 @@ jobs:
             id: 190
           - distro: ubuntu
             release: focal
-            id: 206
+            id: 210
           - distro: ubuntu
             release: groovy
             id: 219

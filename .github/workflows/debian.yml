@@ -85,4 +85,4 @@ jobs:
       if: ${{ github.ref == 'refs/heads/packagecloud' }}
       run: |
         curl -X POST https://${{ secrets.PACKAGECLOUD_API_TOKEN }}:@packagecloud.io/api/v1//repos/horizon-eda/horizon-eda/packages.json  -F "package[distro_version_id]=${{ matrix.os.id }}"  -F "package[package_file]=@horizon-eda-upstream_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.deb"
-        curl -X POST https://${{ secrets.PACKAGECLOUD_API_TOKEN }}:@packagecloud.io/api/v1//repos/horizon-eda/horizon-eda/packages.json  -F "package[distro_version_id]=${{ matrix.os.id }}"  -F "package[package_file]=@$(echo horizon-eda-upstream-dbgsym_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.*deb)"
+#        curl -X POST https://${{ secrets.PACKAGECLOUD_API_TOKEN }}:@packagecloud.io/api/v1//repos/horizon-eda/horizon-eda/packages.json  -F "package[distro_version_id]=${{ matrix.os.id }}"  -F "package[package_file]=@$(echo horizon-eda-upstream-dbgsym_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.*deb)"

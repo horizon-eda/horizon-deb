@@ -13,6 +13,9 @@ export DH_VERBOSE = 1
 export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 export PREFIX=/usr
 
+#export CXX=g++-8
+#export CC=gcc-8
+
 %:
 	dh $@
 
@@ -22,4 +25,6 @@ override_dh_clean:
 	-rm -f src/preferences/color_presets.json
 	dh_clean
 
+override_dh_auto_install:
+	dh_auto_install -- install-man
 

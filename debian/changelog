@@ -1,8 +1,8 @@
-horizon-eda-upstream (2.0.90-1) stable; urgency=medium
+horizon-eda-upstream (2.1.0-1) stable; urgency=medium
 
   * New upstream version
 
- -- Lukas K <lukas@horizon-eda.org>  Sun, 22 Aug 2021 12:20:00 +0200
+ -- Lukas K <lukas@horizon-eda.org>  Tue, 07 Sep 2021 12:20:00 +0200
 
 horizon-eda-upstream (2.0.0-1) stable; urgency=medium
 

@@ -33,6 +33,8 @@ jobs:
             release: groovy
           - distro: ubuntu
             release: hirsute
+          - distro: ubuntu
+            release: impish
     runs-on: ubuntu-latest
     container: ${{ matrix.os.distro }}:${{ matrix.os.release }}
     steps:

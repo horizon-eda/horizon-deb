@@ -3,7 +3,7 @@ Author: Wookey <wookey@debian.org>
 
 --- a/Makefile
 +++ b/Makefile
-@@ -797,6 +797,7 @@ OPTIMIZE = -fdata-sections -ffunction-sections -O3
+@@ -887,6 +885,7 @@ OPTIMIZE = -fdata-sections -ffunction-sections -O3
  DEBUGFLAGS = -g3
  WARNFLAGS = -Wall -Wshadow
  PKG_CONFIG_LIBS := $(shell $(PKG_CONFIG) --cflags $(LIBS_ALL))

@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  HORIZON_VERSION: 2.2.0
+  HORIZON_VERSION: 2.3.0
   HORIZON_PKG_VERSION: 1
   DEBIAN_FRONTEND: noninteractive
   LANG: en_US.UTF-8
@@ -33,6 +33,8 @@ jobs:
             release: hirsute
           - distro: ubuntu
             release: impish
+          - distro: ubuntu
+            release: jammy
     runs-on: ubuntu-latest
     container: ${{ matrix.os.distro }}:${{ matrix.os.release }}
     steps:
@@ -47,7 +49,7 @@ jobs:
         echo "${{ env.LANG }} UTF-8" > /etc/locale.gen
         locale-gen
     - name: install dependencies
-      run: apt-get install -y git build-essential libsqlite3-dev util-linux librsvg2-dev libcairomm-1.0-dev libepoxy-dev libgtkmm-3.0-dev uuid-dev libboost-dev  libzmq5 libzmq3-dev libglm-dev libgit2-dev libcurl4-gnutls-dev liboce-ocaf-dev libpodofo-dev python3 libzip-dev git libdxflib-dev
+      run: apt-get install -y git build-essential libsqlite3-dev util-linux librsvg2-dev libcairomm-1.0-dev libepoxy-dev libgtkmm-3.0-dev uuid-dev libboost-dev  libzmq5 libzmq3-dev libglm-dev libgit2-dev libcurl4-gnutls-dev liboce-ocaf-dev libpodofo-dev python3 libarchive-dev libspnav-dev git libdxflib-dev
     - name: install build utils
       run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq
     - name: install gcc 8

@@ -50,7 +50,7 @@ jobs:
         echo "${{ env.LANG }} UTF-8" > /etc/locale.gen
         locale-gen
     - name: install build utils
-      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq reprepro gnupg wget
+      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq reprepro gnupg wget rsync
     - name: import gpg key
       run: |
         echo "${{ secrets.GPG_KEY}}" | gpg --import

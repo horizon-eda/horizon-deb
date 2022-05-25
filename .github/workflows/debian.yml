@@ -23,18 +23,18 @@ jobs:
         os: 
           - distro: debian
             release: buster
-          - distro: debian
-            release: bullseye
-          - distro: ubuntu
-            release: bionic
-          - distro: ubuntu
-            release: focal
-          - distro: ubuntu
-            release: hirsute
-          - distro: ubuntu
-            release: impish
-          - distro: ubuntu
-            release: jammy
+#          - distro: debian
+#            release: bullseye
+#          - distro: ubuntu
+#            release: bionic
+#          - distro: ubuntu
+#            release: focal
+#          - distro: ubuntu
+#            release: hirsute
+#          - distro: ubuntu
+#            release: impish
+#          - distro: ubuntu
+#            release: jammy
     runs-on: ubuntu-latest
     container: ${{ matrix.os.distro }}:${{ matrix.os.release }}
     steps:
@@ -51,16 +51,14 @@ jobs:
     - name: install dependencies
       run: apt-get install -y git build-essential libsqlite3-dev util-linux librsvg2-dev libcairomm-1.0-dev libepoxy-dev libgtkmm-3.0-dev uuid-dev libboost-dev  libzmq5 libzmq3-dev libglm-dev libgit2-dev libcurl4-gnutls-dev liboce-ocaf-dev libpodofo-dev python3 libarchive-dev libspnav-dev git libdxflib-dev
     - name: install build utils
-      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq
+      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq reprepro gnupg
+    - name: import gpg key
+      run: |
+        echo ${{ secrets.GPG_KEY}} | gpg --import
+        gpg --list-keys
     - name: install gcc 8
       if: ${{ matrix.os.release == 'bionic' }}
       run: apt-get install -y g++-8
-    - name: get distro id
-      run: |
-        curl https://${{ secrets.PACKAGECLOUD_API_TOKEN }}:@packagecloud.io/api/v1/distributions.json | \
-        jq -r '"DISTRO_ID=" + (.deb[] | select(.index_name == "${{ matrix.os.distro }}")  | .versions[] | select(.index_name == "${{ matrix.os.release }}") | .id | tostring)' | \
-        tee -a $GITHUB_ENV
-        
     - uses: actions/checkout@v2
     - name: download tarball
       run: wget https://github.com/horizon-eda/horizon/archive/v${HORIZON_VERSION}.tar.gz -O horizon-eda-upstream_${HORIZON_VERSION}.orig.tar.gz

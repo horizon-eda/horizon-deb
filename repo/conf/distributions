@@ -1,0 +1,7 @@
+Origin: Horizon EDA
+Label: Horizon EDA
+Codename: buster
+Architectures: amd64
+Components: main
+Description: Upstream packages for Horizon EDA
+SignWith: 874B371A832745EF77CE948616937696D95902BB

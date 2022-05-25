@@ -41,6 +41,7 @@ jobs:
     - name: check if master branch
       if: ${{ github.ref == 'refs/heads/packagecloud' }}
       run: echo "Building tag ${{ github.ref }}"
+    - uses: actions/checkout@v2
     - name: update apt cache
       run: apt-get update
     - name: generate locales
@@ -49,17 +50,22 @@ jobs:
         echo "${{ env.LANG }} UTF-8" > /etc/locale.gen
         locale-gen
     - name: install build utils
-      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq reprepro gnupg
+      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq reprepro gnupg wget
     - name: import gpg key
       run: |
         echo "${{ secrets.GPG_KEY}}" | gpg --import
         gpg --list-keys
+    - name: create repo
+      run: |
+        wget https://mirror.selfnet.de/horizon-eda/horizon-eda-upstream_2.3.0-1_amd64.deb
+        cd repo
+        reprepro includedeb bullseye ../horizon-eda-upstream_2.3.0-1_amd64.deb
+        find
     - name: install dependencies
       run: apt-get install -y git build-essential libsqlite3-dev util-linux librsvg2-dev libcairomm-1.0-dev libepoxy-dev libgtkmm-3.0-dev uuid-dev libboost-dev  libzmq5 libzmq3-dev libglm-dev libgit2-dev libcurl4-gnutls-dev liboce-ocaf-dev libpodofo-dev python3 libarchive-dev libspnav-dev git libdxflib-dev
     - name: install gcc 8
       if: ${{ matrix.os.release == 'bionic' }}
       run: apt-get install -y g++-8
-    - uses: actions/checkout@v2
     - name: download tarball
       run: wget https://github.com/horizon-eda/horizon/archive/v${HORIZON_VERSION}.tar.gz -O horizon-eda-upstream_${HORIZON_VERSION}.orig.tar.gz
 

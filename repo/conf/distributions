@@ -1,6 +1,6 @@
 Origin: Horizon EDA
 Label: Horizon EDA
-Codename: buster
+Codename: bullseye
 Architectures: amd64
 Components: main
 Description: Upstream packages for Horizon EDA

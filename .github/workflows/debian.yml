@@ -22,7 +22,7 @@ jobs:
       matrix:
         os: 
           - distro: debian
-            release: buster
+            release: bullseye
 #          - distro: debian
 #            release: bullseye
 #          - distro: ubuntu
@@ -58,6 +58,7 @@ jobs:
     - name: create repo
       run: |
         wget https://mirror.selfnet.de/horizon-eda/horizon-eda-upstream_2.3.0-1_amd64.deb
+        sed -i 's/Codename:.*/Codename: ${{ matrix.os.release }}/' repo/conf/distributions
         cd repo
         reprepro includedeb bullseye ../horizon-eda-upstream_2.3.0-1_amd64.deb
         find

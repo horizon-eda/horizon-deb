@@ -98,6 +98,6 @@ jobs:
       run: |
         sed -i 's/Codename:.*/Codename: ${{ matrix.os.release }}/' repo/conf/distributions
         cd repo
-        reprepro includedeb ${{ matrix.os.release }} ../*.*deb
+        reprepro includedeb ${{ matrix.os.release }} ../*.deb
         find
         RSYNC_PASSWORD=${{ secrets.RSYNC_PASSWORD }} rsync -avz --stats --exclude=db --exclude=conf --delete-after ./  rsync://horizon-eda@mirror-1.server.selfnet.de/horizon-eda/${{ matrix.os.distro }}-${{ matrix.os.release }}/

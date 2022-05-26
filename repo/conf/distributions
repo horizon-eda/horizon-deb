@@ -1,0 +1,7 @@
+Origin: Horizon EDA
+Label: Horizon EDA
+Codename: bullseye
+Architectures: amd64
+Components: main
+Description: Upstream packages for Horizon EDA
+SignWith: 8D3D7343BE30F701C20E83CF3BFF2011B242BF0C

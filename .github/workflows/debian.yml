@@ -41,6 +41,7 @@ jobs:
     - name: check if master branch
       if: ${{ github.ref == 'refs/heads/packagecloud' }}
       run: echo "Building tag ${{ github.ref }}"
+    - uses: actions/checkout@v2
     - name: update apt cache
       run: apt-get update
     - name: generate locales
@@ -48,20 +49,17 @@ jobs:
         apt-get install -y locales
         echo "${{ env.LANG }} UTF-8" > /etc/locale.gen
         locale-gen
+    - name: install build utils
+      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq reprepro gnupg rsync
+    - name: import gpg key
+      run: |
+        echo "${{ secrets.GPG_KEY}}" | gpg --import
+        gpg --list-keys
     - name: install dependencies
       run: apt-get install -y git build-essential libsqlite3-dev util-linux librsvg2-dev libcairomm-1.0-dev libepoxy-dev libgtkmm-3.0-dev uuid-dev libboost-dev  libzmq5 libzmq3-dev libglm-dev libgit2-dev libcurl4-gnutls-dev liboce-ocaf-dev libpodofo-dev python3 libarchive-dev libspnav-dev git libdxflib-dev
-    - name: install build utils
-      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq
     - name: install gcc 8
       if: ${{ matrix.os.release == 'bionic' }}
       run: apt-get install -y g++-8
-    - name: get distro id
-      run: |
-        curl https://${{ secrets.PACKAGECLOUD_API_TOKEN }}:@packagecloud.io/api/v1/distributions.json | \
-        jq -r '"DISTRO_ID=" + (.deb[] | select(.index_name == "${{ matrix.os.distro }}")  | .versions[] | select(.index_name == "${{ matrix.os.release }}") | .id | tostring)' | \
-        tee -a $GITHUB_ENV
-        
-    - uses: actions/checkout@v2
     - name: download tarball
       run: wget https://github.com/horizon-eda/horizon/archive/v${HORIZON_VERSION}.tar.gz -O horizon-eda-upstream_${HORIZON_VERSION}.orig.tar.gz
 
@@ -96,8 +94,10 @@ jobs:
           *.dsc
           *.debian.tar.*
           *.orig.tar.*
-    - name: Push to packagecloud
-      if: ${{ github.ref == 'refs/heads/master' }}
+    - name: create repo and push to selfnet mirror
       run: |
-        curl -X POST https://${{ secrets.PACKAGECLOUD_API_TOKEN }}:@packagecloud.io/api/v1//repos/horizon-eda/horizon-eda/packages.json  -F "package[distro_version_id]=${{ env.DISTRO_ID }}"  -F "package[package_file]=@horizon-eda-upstream_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.deb"
-#        curl -X POST https://${{ secrets.PACKAGECLOUD_API_TOKEN }}:@packagecloud.io/api/v1//repos/horizon-eda/horizon-eda/packages.json  -F "package[distro_version_id]=${{ env.DISTRO_ID }}"  -F "package[package_file]=@$(echo horizon-eda-upstream-dbgsym_${{ env.HORIZON_VERSION }}-${{ env.HORIZON_PKG_VERSION }}_amd64.*deb)"
+        sed -i 's/Codename:.*/Codename: ${{ matrix.os.release }}/' repo/conf/distributions
+        cd repo
+        reprepro includedeb ${{ matrix.os.release }} ../*.deb
+        find
+        RSYNC_PASSWORD=${{ secrets.RSYNC_PASSWORD }} rsync -avz --stats --exclude=db --exclude=conf --delete-after ./  rsync://horizon-eda@mirror-1.server.selfnet.de/horizon-eda/${{ matrix.os.distro }}-${{ matrix.os.release }}/

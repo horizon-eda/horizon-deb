@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  HORIZON_VERSION: 2.3.0
+  HORIZON_VERSION: 2.3.1
   HORIZON_PKG_VERSION: 1
   DEBIAN_FRONTEND: noninteractive
   LANG: en_US.UTF-8
@@ -39,8 +39,8 @@ jobs:
     container: ${{ matrix.os.distro }}:${{ matrix.os.release }}
     steps:
     - name: check if master branch
-      if: ${{ github.ref == 'refs/heads/packagecloud' }}
-      run: echo "Building tag ${{ github.ref }}"
+      if: ${{ github.ref == 'refs/heads/master' }}
+      run: echo "Building branch ${{ github.ref }}"
     - uses: actions/checkout@v2
     - name: update apt cache
       run: apt-get update
@@ -95,6 +95,7 @@ jobs:
           *.debian.tar.*
           *.orig.tar.*
     - name: create repo and push to selfnet mirror
+      if: ${{ github.ref == 'refs/heads/master' }}
       run: |
         sed -i 's/Codename:.*/Codename: ${{ matrix.os.release }}/' repo/conf/distributions
         cd repo

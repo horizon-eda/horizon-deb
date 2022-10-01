@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  HORIZON_VERSION: 2.3.1
+  HORIZON_VERSION: 2.3.90
   HORIZON_PKG_VERSION: 1
   DEBIAN_FRONTEND: noninteractive
   LANG: en_US.UTF-8
@@ -30,11 +30,9 @@ jobs:
           - distro: ubuntu
             release: focal
           - distro: ubuntu
-            release: hirsute
-          - distro: ubuntu
-            release: impish
-          - distro: ubuntu
             release: jammy
+          - distro: ubuntu
+            release: kinetic
     runs-on: ubuntu-latest
     container: ${{ matrix.os.distro }}:${{ matrix.os.release }}
     steps:

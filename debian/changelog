@@ -1,3 +1,9 @@
+horizon-eda-upstream (2.4.0-1) stable; urgency=medium
+
+  * New upstream version
+
+ -- Lukas K <lukas@horizon-eda.org>  Sat, 15 Oct 2022 19:20:00 +0200
+
 horizon-eda-upstream (2.3.1-1) stable; urgency=medium
 
   * New upstream version

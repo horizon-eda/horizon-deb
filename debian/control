@@ -4,7 +4,6 @@ Priority: optional
 Maintainer: Lukas K <lukas@horizon-eda.org>
 Uploaders: Wookey <wookey@debian.org>
 Build-Depends: debhelper (>= 10),
-               libboost-dev,
                libcairomm-1.0-dev,
                libcurl4-gnutls-dev,
                libdxflib-dev,

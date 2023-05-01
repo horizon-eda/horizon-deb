@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  HORIZON_VERSION: 2.4.0
+  HORIZON_VERSION: 2.4.90
   HORIZON_PKG_VERSION: 1
   DEBIAN_FRONTEND: noninteractive
   LANG: en_US.UTF-8
@@ -25,6 +25,8 @@ jobs:
             release: buster
           - distro: debian
             release: bullseye
+          - distro: debian
+            release: bookworm
           - distro: ubuntu
             release: bionic
           - distro: ubuntu
@@ -33,6 +35,8 @@ jobs:
             release: jammy
           - distro: ubuntu
             release: kinetic
+          - distro: ubuntu
+            release: lunar
     runs-on: ubuntu-latest
     container: ${{ matrix.os.distro }}:${{ matrix.os.release }}
     steps:

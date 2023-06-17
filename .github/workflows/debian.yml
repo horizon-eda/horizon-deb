@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  HORIZON_VERSION: 2.4.90
+  HORIZON_VERSION: 2.4.91
   HORIZON_PKG_VERSION: 1
   DEBIAN_FRONTEND: noninteractive
   LANG: en_US.UTF-8

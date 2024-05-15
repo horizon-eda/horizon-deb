@@ -61,9 +61,6 @@ jobs:
     - name: Install opencascade
       run: apt-get install libocct-ocaf-dev libocct-data-exchange-dev -y
       if: ${{ matrix.os.release == 'noble' }}
-    - name: patch debian/control opencascade package names
-      run: sed -i "s/liboce-ocaf-dev,/libocct-ocaf-dev,\\n               libocct-data-exchange-dev,/" horizon-eda-upstream-${HORIZON_VERSION}/debian/control 
-      if: ${{ matrix.os.release == 'noble' }}
     - name: download tarball
       run: wget https://github.com/horizon-eda/horizon/archive/v${HORIZON_VERSION}.tar.gz -O horizon-eda-upstream_${HORIZON_VERSION}.orig.tar.gz
 
@@ -72,6 +69,10 @@ jobs:
         tar xzf horizon-eda-upstream_${HORIZON_VERSION}.orig.tar.gz
         mv horizon-${HORIZON_VERSION} horizon-eda-upstream-${HORIZON_VERSION}
         cp -r debian horizon-eda-upstream-${HORIZON_VERSION}
+
+    - name: patch debian/control opencascade package names
+      run: sed -i "s/liboce-ocaf-dev,/libocct-ocaf-dev,\\n               libocct-data-exchange-dev,/" horizon-eda-upstream-${HORIZON_VERSION}/debian/control 
+      if: ${{ matrix.os.release == 'noble' }}
 
     - name: run debuild
       run: debuild -uc -us

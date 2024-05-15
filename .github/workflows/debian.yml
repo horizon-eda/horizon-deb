@@ -48,13 +48,19 @@ jobs:
         echo "${{ env.LANG }} UTF-8" > /etc/locale.gen
         locale-gen
     - name: install build utils
-      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq reprepro gnupg rsync meson
+      run: apt-get install -y devscripts build-essential lintian wget debhelper curl jq reprepro gnupg rsync meson cmake
     - name: import gpg key
       run: |
         echo "${{ secrets.GPG_KEY}}" | gpg --import
         gpg --list-keys
     - name: install dependencies
-      run: apt-get install -y git build-essential libsqlite3-dev util-linux librsvg2-dev libcairomm-1.0-dev libepoxy-dev libgtkmm-3.0-dev uuid-dev libzmq5 libzmq3-dev libglm-dev libgit2-dev libcurl4-gnutls-dev liboce-ocaf-dev libpodofo-dev python3 libarchive-dev libspnav-dev git libdxflib-dev
+      run: apt-get install -y git build-essential libsqlite3-dev util-linux librsvg2-dev libcairomm-1.0-dev libepoxy-dev libgtkmm-3.0-dev uuid-dev libzmq5 libzmq3-dev libglm-dev libgit2-dev libcurl4-gnutls-dev libpodofo-dev python3 libarchive-dev libspnav-dev git libdxflib-dev
+    - name: Install opencascade
+      run: apt-get install liboce-ocaf-dev -y
+      if: ${{ matrix.os.release != 'noble' }}
+    - name: Install opencascade
+      run: apt-get install libocct-ocaf-dev libocct-data-exchange-dev -y
+      if: ${{ matrix.os.release == 'noble' }}
     - name: download tarball
       run: wget https://github.com/horizon-eda/horizon/archive/v${HORIZON_VERSION}.tar.gz -O horizon-eda-upstream_${HORIZON_VERSION}.orig.tar.gz
 

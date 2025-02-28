@@ -10,7 +10,6 @@ export DH_VERBOSE = 1
 # package maintainers to append CFLAGS
 #export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
 # package maintainers to append LDFLAGS
-export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 export PREFIX=/usr
 
 #export CXX=g++-8
@@ -18,13 +17,4 @@ export PREFIX=/usr
 
 %:
 	dh $@
-
-override_dh_clean:
-	-rm -r docs
-	-rm -r horizon.so
-	-rm -f src/preferences/color_presets.json
-	dh_clean
-
-override_dh_auto_install:
-	dh_auto_install -- install-man
 

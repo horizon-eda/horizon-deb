@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  HORIZON_VERSION: 2.5.92
+  HORIZON_VERSION: 2.6.0
   HORIZON_PKG_VERSION: 1
   DEBIAN_FRONTEND: noninteractive
   LANG: en_US.UTF-8
@@ -81,12 +81,12 @@ jobs:
     - name: list files
       run: ls
     - name: upload debian packages
-      uses: actions/upload-artifact@v2-preview
+      uses: actions/upload-artifact@v4
       with:
         name: packages-${{ matrix.os.distro }}-${{ matrix.os.release }}
         path: ./*.*deb
     - name: upload debian source files
-      uses: actions/upload-artifact@v2-preview
+      uses: actions/upload-artifact@v4
       with:
         name: source-packages-${{ matrix.os.distro }}-${{ matrix.os.release }}
         path: |

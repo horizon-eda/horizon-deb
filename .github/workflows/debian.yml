@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  HORIZON_VERSION: 2.6.0
+  HORIZON_VERSION: 2.7.0
   HORIZON_PKG_VERSION: 1
   DEBIAN_FRONTEND: noninteractive
   LANG: en_US.UTF-8
@@ -22,9 +22,13 @@ jobs:
       matrix:
         os: 
           - distro: debian
+            release: trixie
+          - distro: debian
             release: bullseye
           - distro: debian
             release: bookworm
+          - distro: ubuntu
+            release: plucky
           - distro: ubuntu
             release: focal
           - distro: ubuntu
@@ -57,10 +61,10 @@ jobs:
       run: apt-get install -y git build-essential libsqlite3-dev util-linux librsvg2-dev libcairomm-1.0-dev libepoxy-dev libgtkmm-3.0-dev uuid-dev libzmq5 libzmq3-dev libglm-dev libgit2-dev libcurl4-gnutls-dev libpodofo-dev python3 libarchive-dev libspnav-dev git libdxflib-dev
     - name: Install opencascade
       run: apt-get install liboce-ocaf-dev -y
-      if: ${{ matrix.os.release != 'noble' && matrix.os.release != 'oracular' }}
+      if: ${{ matrix.os.release != 'noble' && matrix.os.release != 'oracular' && matrix.os.release != 'plucky' && matrix.os.release != 'trixie' }}
     - name: Install opencascade
       run: apt-get install libocct-ocaf-dev libocct-data-exchange-dev -y
-      if: ${{ matrix.os.release == 'noble' || matrix.os.release == 'oracular' }}
+      if: ${{ matrix.os.release == 'noble' || matrix.os.release == 'oracular' || matrix.os.release == 'plucky' || matrix.os.release == 'trixie' }}
     - name: download tarball
       run: wget https://github.com/horizon-eda/horizon/archive/v${HORIZON_VERSION}.tar.gz -O horizon-eda-upstream_${HORIZON_VERSION}.orig.tar.gz
 
@@ -72,7 +76,7 @@ jobs:
 
     - name: patch debian/control opencascade package names
       run: sed -i "s/liboce-ocaf-dev,/libocct-ocaf-dev,\\n               libocct-data-exchange-dev,/" horizon-eda-upstream-${HORIZON_VERSION}/debian/control 
-      if: ${{ matrix.os.release == 'noble' || matrix.os.release == 'oracular' }}
+      if: ${{ matrix.os.release == 'noble' || matrix.os.release == 'oracular' || matrix.os.release == 'plucky' || matrix.os.release == 'trixie' }}
 
     - name: run debuild
       run: debuild -uc -us
